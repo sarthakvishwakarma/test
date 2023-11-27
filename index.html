@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title> Form</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 20px;
+            background-color: rgb(228, 207, 207);
+        }
+
+      
+        .form-control .additional-comment {
+            border: 1px solid #ced4da;
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Details Form</h2>
+        <form id="userForm">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="additionalInfo">Additional Information:</label>
+                <input type="text" class="form-control" id="additionalInfo" placeholder="Additional information">
+            </div>
+            <div class="form-group">
+                <label for="comment">Comment:</label>
+                <textarea class="form-control" id="comment" rows="3" placeholder="Type your comment here"></textarea>
+            </div>
+
+            <div id="userData" class="mt-4"></div>
+            <div class="form-group mt-4" id="additionalCommentsSection">
+                <label for="additionalComments">Additional Comments:</label>
+                <div id="additionalCommentsContainer">
+                    <!-- Additional comments will be dynamically added here -->
+                </div>
+                <button type="button" class="btn btn-success" onclick="addComment()">Add Comment</button>
+                <button type="button" class="btn btn-danger" onclick="removeComment()">Remove Comment</button>
+            </div>
+            <div id="errorMessages" class="mt-4 text-danger"></div>
+            <button type="button" class="btn btn-primary" onclick="submitForm()">Submit</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+
+
+        function updateFormWithData(data) {
+            const userDataDiv = document.getElementById("userData");
+            userDataDiv.innerHTML = `
+            <h4>User Data</h4>
+            <p><strong>Name:</strong> ${data.name}</p>
+            <p><strong>Email:</strong> ${data.email}</p>
+            <p><strong>Additional Info:</strong> ${data.company ? data.company.name : "N/A"}</p>
+            <p><strong>Comment:</strong> ${document.getElementById("comment").value || "N/A"}</p>
+        `;
+        }
+
+        function addComment() {
+            const additionalCommentsContainer = document.getElementById("additionalCommentsContainer");
+            const newCommentInput = document.createElement("input");
+            newCommentInput.type = "text";
+            newCommentInput.className = "form-control mt-2";
+            newCommentInput.placeholder = "Enter additional comment";
+            additionalCommentsContainer.appendChild(newCommentInput);
+        }
+
+        function removeComment() {
+            const additionalCommentsContainer = document.getElementById("additionalCommentsContainer");
+            if (additionalCommentsContainer.children.length > 0) {
+                additionalCommentsContainer.removeChild(additionalCommentsContainer.lastChild);
+            }
+        }
+
+        function submitForm() {
+            const userDataDiv = document.getElementById("userData");
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const additionalInfo = document.getElementById("additionalInfo").value;
+            const comment = document.getElementById("comment").value;
+
+            userDataDiv.innerHTML = `
+            <h4>User Data</h4>
+            <p><strong>Name:</strong> ${name}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Additional Info:</strong> ${additionalInfo || "N/A"}</p>
+            <p><strong>Comment:</strong> ${comment || "N/A"}</p>
+        `;
+        }
+
+        function displayError(message) {
+            const errorMessagesDiv = document.getElementById("errorMessages");
+            errorMessagesDiv.textContent = message;
+        }
+
+        function clearError() {
+            const errorMessagesDiv = document.getElementById("errorMessages");
+            errorMessagesDiv.textContent = "";
+        }
+    </script>
+
+</body>
+
+</html>
